@@ -1,42 +1,39 @@
 import styled from 'styled-components';
 import background from './img/bgc.jpg';
 
-const boxShad = ' 0 10px 5px rgba(0, 0, 0, 0.5)';
+const boxShad = ' 0 10px 5px rgba(0, 0, 0, 0.8)';
 const bgcColor = 'rgba(255, 255, 255, 0.4)'
 
 export const Bgc = styled.div`
+max-width: 1920px;
+margin: 0 auto;
 background-image: url(${background});
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
 /*transition: 0.4s ease-out;*/ 
-font-size: 20px;
 font-family: 'Roboto Condensed', sans-serif;
-
-${'' /* .warm {
-  background-image: url(${background};
-} */}
 `;
 
 export const Wrapper = styled.section`
-min-height: 100vh;
+height: 100vh;
 background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
-padding: 5vh 10%;
+padding: 5vh 5%;
+overflow: hidden;
 
 .input-wrapper {
-  width: 60%;
-  margin: 0 auto 20vh auto;
-  ${'' /* border: 2px solid #fff; */}
+  width: 100%;
+  margin-bottom: 10vh;
   border-radius: 0 0 16px 16px;
   box-shadow: ${boxShad};
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: ${bgcColor};
 
   .input-bar {
     width: 80%;
     padding: 5px;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 0 16px;
     text-align: center;
-    font-size: 2rem; 
+    font-size: 30px; 
     transition: 0.4s ease;
 
     background: none;
@@ -44,51 +41,106 @@ padding: 5vh 10%;
     outline: none;
 
     :focus {
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: ${bgcColor};
     }
   }
   .srch-btn {
     width: 20%;
     padding: 5px 0;
     font-size: 2rem;
-    cursor: pointer;
     border: none;
     border-left: 1px solid #fff;
     border-radius: 0 0 16px 0;
-    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.6);
     background: none;
-    transition: 0.4s ease;
-
-    :hover {
-      transform: translate(5%, 0);
-    }
   }
 }
 
 .date-wrapper,
 .weather-wrapper{
-  width: 60%;
+  width: 100%;
   padding: 3vh;
-  margin: 7vh auto 0;
+  margin-bottom: 5vh;
   border-radius: 25px;
-  font-size: 3rem;
+  font-size: 45px;
   text-align: center;
   box-shadow: ${boxShad};
 
   background-color: ${bgcColor};
-  text-shadow: 0 3px 3px rgb(200, 200, 200);
+  text-shadow: 0 2px 2px rgb(55, 55, 55);
   
   .location {
     margin-bottom: 3vh;
   }
 
   .date {
-    font-size: 2rem;
+    font-size: 30px;
   }
 
   .deg {
-    font-size: 4rem;
+    font-size: 65px;
     margin-bottom: 3vh;
+  }
+}
+
+@media (min-width: 360px){
+  .date-wrapper,
+  .weather-wrapper{
+    font-size: 50px;
+}
+
+@media (min-width: 411px) {
+  .input-wrapper {
+    margin-bottom: 15vh;
+  }
+  .date-wrapper,
+  .weather-wrapper{
+    margin-bottom: 10vh;
+  }
+}
+
+@media (min-height: 660px) and (orientation: portrait) {
+  .input-wrapper {
+    margin-bottom: 15vh;
+    }
+  .date-wrapper,
+  .weather-wrapper{
+    margin-bottom: 10vh;
+    }
+  }
+}
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .input-wrapper {
+    margin-bottom: 20vh;
+  }
+  .date-wrapper,
+  .weather-wrapper{
+    margin-bottom: 10vh;
+  }
+}
+
+@media(min-width: 1020px) {
+  padding: 5vh 10%;
+
+  .input-wrapper {
+    width: 60%;
+    margin: 0 auto 20vh auto;
+
+    .srch-btn {
+      cursor: pointer;
+      transition: 0.4s ease;
+
+      :hover {
+        transform: translate(5%, 0);
+      }
+    }
+  }
+
+  .date-wrapper,
+  .weather-wrapper{
+    width: 60%;
+    margin: 7vh auto 0;
   }
 }
 `;

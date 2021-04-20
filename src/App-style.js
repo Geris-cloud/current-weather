@@ -24,11 +24,11 @@ overflow: hidden;
   border-radius: 0 0 16px 16px;
   box-shadow: ${boxShad};
   background-color: ${bgcColor};
+  overflow: hidden;
 
   .input-bar {
-    width: 80%;
+    width: 75%;
     padding: 5px;
-    border-radius: 0 0 0 16px;
     text-align: center;
     font-size: 30px; 
     transition: 0.4s ease;
@@ -41,15 +41,24 @@ overflow: hidden;
       background-color: ${bgcColor};
     }
   }
+  .geo-btn,
   .srch-btn {
-    width: 20%;
+    width: 10%;
     padding: 5px 0;
-    font-size: 2rem;
+    font-size: 30px;
     border: none;
+    border-right: 1px solid #fff;
+    border-radius: 0 0 0 16px;
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.6);
+    background: none;
+    z-index: 1;
+  }
+  .srch-btn {
+    width: 15%;
+    border-right: none;
     border-left: 1px solid #fff;
     border-radius: 0 0 16px 0;
     box-shadow: -5px 0 5px rgba(0, 0, 0, 0.6);
-    background: none;
   }
 }
 
@@ -124,13 +133,18 @@ overflow: hidden;
     width: 60%;
     margin: 0 auto 20vh auto;
 
-    .srch-btn {
+    .srch-btn,
+    .geo-btn {
       cursor: pointer;
       transition: 0.4s ease;
-
+      transform: translate(0, 0);
+      
       :hover {
         transform: translate(5%, 0);
       }
+    }
+    .geo-btn:hover {
+      transform: translate(-5%, 0);
     }
   }
 

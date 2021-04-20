@@ -21,7 +21,7 @@ const handleErrors = (response) => {
 if ('geolocation' in navigator) {
   console.log('ok')
 } else {
-  console.log('nope')
+  console.log("you don't have this function")
 };
 
 function App() {
@@ -50,26 +50,22 @@ function App() {
     if (e.which === 13) { search() };
   }
 
-  // navigator.geolocation.getCurrentPosition((position) => {
-  //   fetch(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`)
-  //     .then(handleErrors)
-  //     .then(response => response.json())
-  //     .then((data) => {
-  //       setWeather(data)
-  //       setCity('')
-  //       console.log(data)
-  //     })
-  //     .catch(error => {
-  //       console.log('Error:', error)
-  //       window.alert(`We can't find this city, please try again`);
-  //       setCity('')
-  //     })
-  //   return weatherApp;
-  // })
+  const geoSearch = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      fetch(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`)
+        .then(handleErrors)
+        .then(response => response.json())
+        .then((data) => {
+          setWeather(data)
+        })
+        .catch(error => {
+          window.alert(`Some mistake happened, please try again later`);
+        })
+    })
+  }
 
   let bgc = {
     backgroundImage: `url(${startbgc})`,
-    transition: '0.4s ease',
   }
 
   const bgcChange = () => {
@@ -78,7 +74,10 @@ function App() {
         case 12:
           bgc.backgroundImage = `url(${lightbgc}`;
           break;
-        case 7 || 4:
+        case 7:
+          bgc.backgroundImage = `url(${rainbgc})`;
+          break;
+        case 4:
           bgc.backgroundImage = `url(${rainbgc})`;
           break;
         case 5:
@@ -87,14 +86,12 @@ function App() {
         case 6:
           bgc.backgroundImage = `url(${cldbgc})`
           break;
-
-
         default:
           bgc.backgroundImage = `url(${startbgc})`;
       }
     }
   }
-  // case 4 + 1:
+
   bgcChange();
 
   return (
@@ -102,6 +99,10 @@ function App() {
       <Wrapper>
         <main>
           <div className="input-wrapper">
+            <button
+              className="geo-btn"
+              onClick={geoSearch}>
+              <i class="fas fa-map-marker-alt"></i></button>
             <input
               type="text"
               className="input-bar"

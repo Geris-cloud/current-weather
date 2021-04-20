@@ -1,17 +1,14 @@
 import styled from 'styled-components';
-import background from './img/bgc.jpg';
 
 const boxShad = ' 0 10px 5px rgba(0, 0, 0, 0.8)';
-const bgcColor = 'rgba(255, 255, 255, 0.4)'
+const bgcColor = 'rgba(255, 255, 255, 0.6)'
 
 export const Bgc = styled.div`
 max-width: 1920px;
 margin: 0 auto;
-background-image: url(${background});
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
-/*transition: 0.4s ease-out;*/ 
 font-family: 'Roboto Condensed', sans-serif;
 `;
 

@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Wrapper, Bgc } from './App-style';
+import clearbgc from './img/sky.jpg';
+import startbgc from './img/bgc.jpg';
+import rainbgc from './img/rain.jpg'
+import lightbgc from './img/lightning.jpg'
+import cldbgc from './img/clouds.jpg'
 
 const params = {
   path: "https://api.openweathermap.org/data/2.5/weather",
-  key: "756de7619febabc7dc64042e98afc037",
+  key: "49ebaa43590359392604012bb8ae7231",
 };
 
 const handleErrors = (response) => {
@@ -12,6 +17,12 @@ const handleErrors = (response) => {
   }
   return response
 }
+
+if ('geolocation' in navigator) {
+  console.log('ok')
+} else {
+  console.log('nope')
+};
 
 function App() {
   let today = new window.Date().toDateString();
@@ -39,8 +50,55 @@ function App() {
     if (e.which === 13) { search() };
   }
 
+  // navigator.geolocation.getCurrentPosition((position) => {
+  //   fetch(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`)
+  //     .then(handleErrors)
+  //     .then(response => response.json())
+  //     .then((data) => {
+  //       setWeather(data)
+  //       setCity('')
+  //       console.log(data)
+  //     })
+  //     .catch(error => {
+  //       console.log('Error:', error)
+  //       window.alert(`We can't find this city, please try again`);
+  //       setCity('')
+  //     })
+  //   return weatherApp;
+  // })
+
+  let bgc = {
+    backgroundImage: `url(${startbgc})`,
+    transition: '0.4s ease',
+  }
+
+  const bgcChange = () => {
+    if (weather !== undefined) {
+      switch (weather.weather[0].main.length) {
+        case 12:
+          bgc.backgroundImage = `url(${lightbgc}`;
+          break;
+        case 7 || 4:
+          bgc.backgroundImage = `url(${rainbgc})`;
+          break;
+        case 5:
+          bgc.backgroundImage = `url(${clearbgc}`;
+          break;
+        case 6:
+          bgc.backgroundImage = `url(${cldbgc})`
+          break;
+
+
+        default:
+          bgc.backgroundImage = `url(${startbgc})`;
+      }
+    }
+  }
+  // case 4 + 1:
+  bgcChange();
+
   return (
-    < Bgc >
+    < Bgc style={bgc} >
       <Wrapper>
         <main>
           <div className="input-wrapper">
@@ -57,7 +115,7 @@ function App() {
               onClick={search}>
               <i className="fas fa-search"></i></button>
           </div>
-          {(weather != undefined) ? (
+          {(weather !== undefined) ? (
             <div>
               <div className="date-wrapper">
                 <div className="location">{weather.name}</div>

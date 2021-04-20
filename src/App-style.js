@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import background from './img/bgc.jpg';
 
-const boxShadow = ' 0 10px 5px rgba(0, 0, 0, 0.5)';
+const boxShad = ' 0 10px 5px rgba(0, 0, 0, 0.5)';
+const bgcColor = 'rgba(255, 255, 255, 0.4)'
 
 export const Bgc = styled.div`
 background-image: url(${background});
@@ -27,7 +28,7 @@ padding: 5vh 10%;
   margin: 0 auto 20vh auto;
   ${'' /* border: 2px solid #fff; */}
   border-radius: 0 0 16px 16px;
-  box-shadow: ${boxShadow};
+  box-shadow: ${boxShad};
   background-color: rgba(255, 255, 255, 0.4);
 
   .input-bar {
@@ -72,10 +73,9 @@ padding: 5vh 10%;
   border-radius: 25px;
   font-size: 3rem;
   text-align: center;
-  box-shadow: ${boxShadow};
+  box-shadow: ${boxShad};
 
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${bgcColor};
   text-shadow: 0 3px 3px rgb(200, 200, 200);
   
   .location {
@@ -85,13 +85,6 @@ padding: 5vh 10%;
   .date {
     font-size: 2rem;
   }
-}
-
-.weather-wrapper {
-  color: #000; 
-  background-color: rgba(255, 255, 255, 0.4);
-  text-shadow: 0 3px 3px rgb(55, 55, 55);
-  box-shadow: 0 10px 5px rgba(255, 255, 255, 0.4);
 
   .deg {
     font-size: 4rem;

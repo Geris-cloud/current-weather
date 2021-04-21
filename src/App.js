@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Wrapper, Bgc } from './App-style';
+import { gsap } from 'gsap';
 import clearbgc from './img/sky.jpg';
 import startbgc from './img/bgc.jpg';
 import rainbgc from './img/rain.jpg'
@@ -26,6 +27,12 @@ if ('geolocation' in navigator) {
 
 function App() {
   let today = new window.Date().toDateString();
+  const sectionZero = React.createRef();
+  const sectionOne = React.createRef();
+  const sectionTwo = React.createRef();
+  const sectionThree = React.createRef();
+  const bgcImg = React.createRef();
+
 
   const [city, setCity] = useState('')
   const [weather, setWeather] = useState()
@@ -44,6 +51,8 @@ function App() {
         window.alert(`We can't find this city, please try again`);
         setCity('')
       })
+
+    startEffect();
   }
 
   const enter = (e) => {
@@ -64,8 +73,12 @@ function App() {
     })
   }
 
-  let bgc = {
+  const bgc = {
     backgroundImage: `url(${startbgc})`,
+  }
+
+  const change = (e) => {
+    setCity(e.target.value)
   }
 
   const bgcChange = () => {
@@ -94,11 +107,22 @@ function App() {
 
   bgcChange();
 
+  const startEffect = () => {
+    gsap.fromTo(sectionZero.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
+    gsap.fromTo(sectionOne.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
+    gsap.fromTo(sectionTwo.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
+    gsap.fromTo(sectionThree.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
+    gsap.fromTo(bgcImg.current, { opacity: 0 }, { opacity: 1, duration: 4 });
+  }
+  useEffect(() => {
+    startEffect();
+  }, [])
+
   return (
-    < Bgc style={bgc} >
+    < Bgc style={bgc} ref={bgcImg}>
       <Wrapper>
         <main>
-          <div className="input-wrapper">
+          <div className="input-wrapper" ref={sectionZero}>
             <button
               className="geo-btn"
               onClick={geoSearch}>
@@ -107,7 +131,7 @@ function App() {
               type="text"
               className="input-bar"
               placeholder="Search...."
-              onChange={c => setCity(c.target.value)}
+              onChange={change}
               value={city}
               onKeyPress={enter}
             />
@@ -118,17 +142,17 @@ function App() {
           </div>
           {(weather !== undefined) ? (
             <div>
-              <div className="date-wrapper">
+              <div className="date-wrapper" ref={sectionOne}>
                 <div className="location">{weather.name}</div>
                 <div className="date">{today.slice(3)}</div>
               </div>
-              <div className="weather-wrapper">
+              <div className="weather-wrapper" ref={sectionTwo}>
                 <div className="deg">{Math.round(weather.main.temp)}°C</div>
                 <div className="weather">{weather.weather[0].main}</div>
               </div>
             </div>
           ) : (
-            <div className="date-wrapper">
+            <div className="date-wrapper" ref={sectionThree}>
               <div className="location">Enter a city to view weather information</div>
               <div className="date">{today.slice(3)}</div>
             </div>

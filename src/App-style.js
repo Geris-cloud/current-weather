@@ -25,6 +25,7 @@ overflow: hidden;
   box-shadow: ${boxShad};
   background-color: ${bgcColor};
   overflow: hidden;
+  tranform: translate(0,0);
 
   .input-bar {
     width: 75%;
@@ -138,7 +139,7 @@ overflow: hidden;
       cursor: pointer;
       transition: 0.4s ease;
       transform: translate(0, 0);
-      
+
       :hover {
         transform: translate(5%, 0);
       }

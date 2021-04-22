@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Wrapper, Bgc } from './App-style';
 import { gsap } from 'gsap';
 import clearbgc from './img/sky.jpg';
@@ -6,6 +6,7 @@ import startbgc from './img/bgc.jpg';
 import rainbgc from './img/rain.jpg'
 import lightbgc from './img/lightning.jpg'
 import cldbgc from './img/clouds.jpg'
+import snowbgc from './img/snow.jpg'
 
 const params = {
   path: "https://api.openweathermap.org/data/2.5/weather",
@@ -22,107 +23,133 @@ const handleErrors = (response) => {
 if ('geolocation' in navigator) {
   console.log('ok')
 } else {
-  console.log("you don't have this function")
+  console.log("you don't have geolocation function")
 };
 
 function App() {
   let today = new window.Date().toDateString();
-  const sectionZero = React.createRef();
-  const sectionOne = React.createRef();
-  const sectionTwo = React.createRef();
-  const sectionThree = React.createRef();
-  const bgcImg = React.createRef();
 
+  const bgcImg = React.createRef();
+  const wrappAnim = React.createRef();
+
+  const startEffect = () => {
+    gsap.to(bgcImg.current, { opacity: 0, duration: 1 })
+    // gsap.to(wrappAnim.current, { opacity: 0, y: 150, duration: 1, delay: 1 })
+  }
+
+  const endEffect = useCallback(() => {
+    gsap.fromTo(bgcImg.current, { opacity: 0 }, { opacity: 1, duration: 1, });
+    gsap.fromTo(wrappAnim.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0, delay: 1 })
+  }, [bgcImg, wrappAnim])
 
   const [city, setCity] = useState('')
   const [weather, setWeather] = useState()
+  const [error, setError] = useState()
 
   const search = () => {
+    startEffect();
     fetch(`${params.path}?q=${city}&APPID=${params.key}&units=metric`)
       .then(handleErrors)
       .then(response => response.json())
       .then((data) => {
         setWeather(data)
-        setCity('')
         console.log(data)
+        setCity('')
       })
       .catch(error => {
-        console.log('Error:', error)
+        console.log(error)
         window.alert(`We can't find this city, please try again`);
         setCity('')
+        setError(true)
       })
-
-    startEffect();
-  }
-
-  const enter = (e) => {
-    if (e.which === 13) { search() };
   }
 
   const geoSearch = () => {
     navigator.geolocation.getCurrentPosition((position) => {
+      // startEffect()
       fetch(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`)
         .then(handleErrors)
         .then(response => response.json())
         .then((data) => {
           setWeather(data)
+          setCity('')
         })
         .catch(error => {
-          window.alert(`Some mistake happened, please try again later`);
+          window.alert(`We can't locate your position`);
+          setCity('')
+          setError(true)
         })
     })
   }
 
-  const bgc = {
-    backgroundImage: `url(${startbgc})`,
+  const enter = (e) => {
+    if (e.which === 13) {
+      search()
+    };
   }
 
   const change = (e) => {
     setCity(e.target.value)
   }
 
+  const bgc = {
+    backgroundImage: `url(${startbgc})`,
+  }
+
   const bgcChange = () => {
     if (weather !== undefined) {
-      switch (weather.weather[0].main.length) {
-        case 12:
+      switch (weather.weather[0].main) {
+        case 'Thunderstorm':
           bgc.backgroundImage = `url(${lightbgc}`;
           break;
-        case 7:
+        case 'Drizzle':
           bgc.backgroundImage = `url(${rainbgc})`;
           break;
-        case 4:
+        case 'Rain':
           bgc.backgroundImage = `url(${rainbgc})`;
           break;
-        case 5:
+        case 'Snow':
+          bgc.backgroundImage = `url(${snowbgc})`;
+          break;
+        case 'Clear':
           bgc.backgroundImage = `url(${clearbgc}`;
           break;
-        case 6:
-          bgc.backgroundImage = `url(${cldbgc})`
+        case 'Clouds':
+          bgc.backgroundImage = `url(${cldbgc})`;
           break;
         default:
           bgc.backgroundImage = `url(${startbgc})`;
+          break;
       }
     }
   }
 
   bgcChange();
 
-  const startEffect = () => {
-    gsap.fromTo(sectionZero.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
-    gsap.fromTo(sectionOne.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
-    gsap.fromTo(sectionTwo.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
-    gsap.fromTo(sectionThree.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0 });
-    gsap.fromTo(bgcImg.current, { opacity: 0 }, { opacity: 1, duration: 4 });
-  }
   useEffect(() => {
-    startEffect();
-  }, [])
+    if (weather !== undefined) {
+      if (weather.id !== undefined || error === true) {
+        endEffect();
+        weather.id = undefined;
+        setError(false)
+      }
+    } else if (error === true) {
+      endEffect();
+      setError(false);
+    }
+  }, [endEffect, error, weather]);
+
+  useEffect(() => {
+    endEffect();
+  }, []);
 
   return (
-    < Bgc style={bgc} ref={bgcImg}>
+    < Bgc
+      style={bgc}
+      ref={bgcImg}>
       <Wrapper>
-        <main>
-          <div className="input-wrapper" ref={sectionZero}>
+        <main ref={wrappAnim}>
+          <div className="input-wrapper">
             <button
               className="geo-btn"
               onClick={geoSearch}>
@@ -142,17 +169,17 @@ function App() {
           </div>
           {(weather !== undefined) ? (
             <div>
-              <div className="date-wrapper" ref={sectionOne}>
+              <div className="date-wrapper">
                 <div className="location">{weather.name}</div>
                 <div className="date">{today.slice(3)}</div>
               </div>
-              <div className="weather-wrapper" ref={sectionTwo}>
+              <div className="weather-wrapper">
                 <div className="deg">{Math.round(weather.main.temp)}°C</div>
                 <div className="weather">{weather.weather[0].main}</div>
               </div>
             </div>
           ) : (
-            <div className="date-wrapper" ref={sectionThree}>
+            <div className="date-wrapper">
               <div className="location">Enter a city to view weather information</div>
               <div className="date">{today.slice(3)}</div>
             </div>

@@ -1,3 +1,17 @@
+# Screenshots
+![Main page](/Screenshots/main-page.png?raw=true "Main page")
+
+![Weather page](/Screenshots/warsaw.png?raw=true "Weather page")
+
+# References
+https://reactjs.org/  
+https://styled-components.com/  
+https://greensock.com/gsap/  
+
+https://fonts.google.com/  
+https://fontawesome.com/  
+https://pixabay.com/pl/  
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

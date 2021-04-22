@@ -53,6 +53,7 @@ overflow: hidden;
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.6);
     background: none;
     z-index: 1;
+    transform: translate(0, 0);
   }
   .srch-btn {
     width: 15%;
@@ -138,7 +139,6 @@ overflow: hidden;
     .geo-btn {
       cursor: pointer;
       transition: 0.4s ease;
-      transform: translate(0, 0);
 
       :hover {
         transform: translate(5%, 0);

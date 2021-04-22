@@ -21,9 +21,9 @@ const handleErrors = (response) => {
 }
 
 if ('geolocation' in navigator) {
-  console.log('ok')
+  console.log('geolocation is active')
 } else {
-  console.log("you don't have geolocation function")
+  console.log('geolocation is inactive')
 };
 
 function App() {
@@ -34,7 +34,6 @@ function App() {
 
   const startEffect = () => {
     gsap.to(bgcImg.current, { opacity: 0, duration: 1 })
-    // gsap.to(wrappAnim.current, { opacity: 0, y: 150, duration: 1, delay: 1 })
   }
 
   const endEffect = useCallback(() => {
@@ -46,8 +45,7 @@ function App() {
   const [weather, setWeather] = useState()
   const [error, setError] = useState()
 
-  const search = () => {
-    startEffect();
+  const fetchData = () => {
     fetch(`${params.path}?q=${city}&APPID=${params.key}&units=metric`)
       .then(handleErrors)
       .then(response => response.json())
@@ -64,10 +62,21 @@ function App() {
       })
   }
 
+  const search = () => {
+    startEffect();
+    setTimeout(fetchData, 1500)
+  }
+
+  const enter = (e) => {
+    if (e.which === 13) {
+      search()
+    };
+  }
+
   const geoSearch = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      // startEffect()
       fetch(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`)
+        .then(startEffect())
         .then(handleErrors)
         .then(response => response.json())
         .then((data) => {
@@ -80,12 +89,6 @@ function App() {
           setError(true)
         })
     })
-  }
-
-  const enter = (e) => {
-    if (e.which === 13) {
-      search()
-    };
   }
 
   const change = (e) => {

@@ -10,13 +10,15 @@ background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
 font-family: 'Roboto Condensed', sans-serif;
+opacity: 0;
 `;
 
 export const Wrapper = styled.section`
-height: 100vh;
+min-height: 100vh;
 background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
 padding: 5vh 5%;
-overflow: hidden;
+
+main {opacity: 0;}
 
 .input-wrapper {
   width: 100%;
@@ -65,7 +67,7 @@ overflow: hidden;
 }
 
 .date-wrapper,
-.weather-wrapper{
+.weather-wrapper {
   width: 100%;
   padding: 3vh;
   margin-bottom: 5vh;
@@ -91,6 +93,10 @@ overflow: hidden;
   }
 }
 
+.weather-wrapper {
+  margin-bottom: 0vh;
+}
+
 @media (min-width: 360px){
   .date-wrapper,
   .weather-wrapper{
@@ -101,8 +107,7 @@ overflow: hidden;
   .input-wrapper {
     margin-bottom: 15vh;
   }
-  .date-wrapper,
-  .weather-wrapper{
+  .date-wrapper {
     margin-bottom: 10vh;
   }
 }
@@ -111,8 +116,7 @@ overflow: hidden;
   .input-wrapper {
     margin-bottom: 15vh;
     }
-  .date-wrapper,
-  .weather-wrapper{
+  .date-wrapper {
     margin-bottom: 10vh;
     }
   }
@@ -122,8 +126,7 @@ overflow: hidden;
   .input-wrapper {
     margin-bottom: 20vh;
   }
-  .date-wrapper,
-  .weather-wrapper{
+  .date-wrapper {
     margin-bottom: 10vh;
   }
 }

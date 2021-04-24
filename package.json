@@ -1,8 +1,8 @@
 {
-  "name": "current-weather",
+  "name": "weather-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://geris-cloud.github.io/current-weather",
+  "homepage": "https://geris-cloud.github.io/Weather-App",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",

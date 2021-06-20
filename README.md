@@ -4,6 +4,7 @@
 ![Weather page](/Screenshots/warsaw.png?raw=true "Weather page")
 
 # References
+https://nodejs.org/en/  
 https://reactjs.org/  
 https://styled-components.com/  
 https://greensock.com/gsap/  
@@ -11,6 +12,7 @@ https://greensock.com/gsap/
 https://fonts.google.com/  
 https://fontawesome.com/  
 https://pixabay.com/pl/  
+https://openweathermap.org/  
 
 # Getting Started with Create React App
 

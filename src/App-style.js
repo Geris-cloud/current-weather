@@ -136,7 +136,7 @@ main {opacity: 0;}
 
   .input-wrapper {
     width: 60%;
-    margin: 0 auto 20vh auto;
+    margin: 0 auto 15vh auto;
 
     .srch-btn,
     .geo-btn {

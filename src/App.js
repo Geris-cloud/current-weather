@@ -38,7 +38,7 @@ function App() {
 
   const endEffect = useCallback(() => {
     gsap.fromTo(bgcImg.current, { opacity: 0 }, { opacity: 1, duration: 1, });
-    gsap.fromTo(wrappAnim.current, { opacity: 0, y: 150 }, { opacity: 1, duration: 1, y: 0, delay: 1 })
+    gsap.fromTo(wrappAnim.current, { opacity: 0, y: 60 }, { opacity: 1, duration: 1, y: 0, delay: 1 })
   }, [bgcImg, wrappAnim])
 
   const [city, setCity] = useState('')

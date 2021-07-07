@@ -45,8 +45,9 @@ function App() {
   const [weather, setWeather] = useState()
   const [error, setError] = useState()
 
-  const fetchData = () => {
-    fetch(`${params.path}?q=${city}&APPID=${params.key}&units=metric`)
+  const fetchData = (data, anim, msg) => {
+    fetch(data)
+      .then(anim)
       .then(handleErrors)
       .then(response => response.json())
       .then((data) => {
@@ -56,38 +57,26 @@ function App() {
       })
       .catch(error => {
         console.log(error)
-        window.alert(`We can't find this city, please try again`);
+        window.alert(msg);
         setCity('')
         setError(true)
       })
   }
 
-  const search = () => {
+  const loupeSearch = () => {
     startEffect();
-    setTimeout(fetchData, 1500)
+    setTimeout(fetchData(`${params.path}?q=${city}&APPID=${params.key}&units=metric`, undefined, `We can't find this city, please try again`), 1500)
   }
 
-  const enter = (e) => {
+  const enterSearch = (e) => {
     if (e.which === 13) {
-      search()
+      loupeSearch()
     };
   }
 
   const geoSearch = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      fetch(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`)
-        .then(startEffect())
-        .then(handleErrors)
-        .then(response => response.json())
-        .then((data) => {
-          setWeather(data)
-          setCity('')
-        })
-        .catch(error => {
-          window.alert(`We can't locate your position`);
-          setCity('')
-          setError(true)
-        })
+      fetchData(`${params.path}?lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=${params.key}&units=metric`, startEffect(), `We can't locate your position`)
     })
   }
 
@@ -164,11 +153,11 @@ function App() {
               placeholder="Search...."
               onChange={change}
               value={city}
-              onKeyPress={enter}
+              onKeyPress={enterSearch}
             />
             <button
               className="srch-btn"
-              onClick={search}>
+              onClick={loupeSearch}>
               <i className="fas fa-search"></i></button>
           </div>
           {(weather !== undefined) ? (
